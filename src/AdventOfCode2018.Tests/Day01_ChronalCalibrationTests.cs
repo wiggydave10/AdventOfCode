@@ -34,23 +34,23 @@ namespace AdventOfCode2018.Tests
         [TestMethod]
         public void Day01_ChronalCalibrationTests_Part2_Test()
         {
-            //var startingFreq = 0;
-            //var frequencyChanges = new[] { +1, -2, +3, +1 };
-            //var result = Day01_ChronalCalibration.Process(startingFreq, frequencyChanges);
+            var startingFreq = 0;
+            var frequencyChanges = new[] { +1, -2, +3, +1 };
+            var result = Day01_ChronalCalibration.Process_Part2(startingFreq, frequencyChanges);
 
-            //result.ShouldBe(3);
+            result.ShouldBe(2);
         }
 
         [TestMethod]
         public void Day01_ChronalCalibrationTests_Part2_Answer()
         {
-            //var stringNumbers = File.ReadAllLines(TestResourceService.GetFilePath("Day01.txt"));
+            var stringNumbers = File.ReadAllLines(TestResourceService.GetFilePath("Day01.txt"));
 
-            //var startingFreq = 0;
-            //var frequencyChanges = stringNumbers.Select(int.Parse).ToArray();
-            //var result = Day01_ChronalCalibration.Process(startingFreq, frequencyChanges);
+            var startingFreq = 0;
+            var frequencyChanges = stringNumbers.Select(int.Parse).ToArray();
+            var result = Day01_ChronalCalibration.Process_Part2(startingFreq, frequencyChanges);
 
-            //result.ShouldBe(0);
+            result.ShouldBe(0);
         }
     }
 }
