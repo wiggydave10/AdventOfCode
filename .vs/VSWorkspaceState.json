@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\docs",
     "\\src",
+    "\\src\\AdventOfCode2018.Core",
     "\\src\\AdventOfCode2018.Tests"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\src\\AdventOfCode2018.Tests\\Day01_ChronalCalibrationTests.cs",
   "PreviewInSolutionExplorer": false
 }
