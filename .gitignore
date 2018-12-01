@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/.vs
+/src/AdventOfCode2018.Core/bin
+/src/AdventOfCode2018.Core/obj
+/src/AdventOfCode2018.Tests/bin
+/src/AdventOfCode2018.Tests/obj
