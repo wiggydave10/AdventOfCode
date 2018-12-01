@@ -5,7 +5,7 @@ namespace AdventOfCode2018.Tests
 {
     public static class TestResourceService
     {
-        private const string resourcePath = "..\\..\\..\\..\\Files";
+        private const string resourcePath = "..\\..\\..\\Files";
 
         public static string GetFilePath(string filename)
         {
