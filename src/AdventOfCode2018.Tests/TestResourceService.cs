@@ -12,5 +12,15 @@ namespace AdventOfCode2018.Tests
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             return Path.Combine(basePath, resourcePath, filename);
         }
+
+        public static string[] GetFileContentsByFile(string filename)
+        {
+            return GetFileContents(GetFilePath(filename));
+        }
+
+        public static string[] GetFileContents(string filePath)
+        {
+            return File.ReadAllLines(filePath);
+        }
     }
 }
