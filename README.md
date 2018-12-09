@@ -4,8 +4,8 @@ My solutions for the [Advent of Code 2018](https://adventofcode.com/2018).
 
 - [x] Day 1 (Completed 01/12/2018)
 - [x] Day 2 (Completed 02/12/2018)
-- [X] Day 3 (Completed 09/12/2018)
-- [ ] Day 4
+- [x] Day 3 (Completed 09/12/2018)
+- [x] Day 4 (Completed 09/12/2018)
 - [ ] Day 5
 - [ ] Day 6
 - [ ] Day 7
