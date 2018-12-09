@@ -12,6 +12,13 @@ namespace AdventOfCode2018.Core
             var fabric = new Fabric(1000, 1000, fabricClaims);
             return fabric.OverlappingCoordinates;
         }
+        public static int Process_Part2(string[] data)
+        {
+            var fabricClaims = GetClaims(data);
+            var fabric = new Fabric(1000, 1000, fabricClaims);
+            var noOverlapping = fabric.NoOverlapping();
+            return noOverlapping.Single().Id;
+        }
 
         private static IList<FabricClaim> GetClaims(IEnumerable<string> entries)
         {
@@ -43,26 +50,32 @@ namespace AdventOfCode2018.Core
             Height = height;
             FabricClaims = fabricClaims;
 
-            occupiedCoords = new Dictionary<Coordinate, int>();
+            occupiedCoords = new Dictionary<Coordinate, List<FabricClaim>>();
             foreach (var fabricClaim in fabricClaims)
             {
                 foreach (var coordinate in fabricClaim.Occupied)
                 {
                     if (occupiedCoords.ContainsKey(coordinate))
-                        occupiedCoords[coordinate]++;
+                        occupiedCoords[coordinate].Add(fabricClaim);
                     else
-                        occupiedCoords.Add(coordinate, 1);
+                        occupiedCoords.Add(coordinate, new List<FabricClaim>() { fabricClaim });
                 }
             }
 
         }
 
-        private readonly Dictionary<Coordinate, int> occupiedCoords;
+        private readonly Dictionary<Coordinate, List<FabricClaim>> occupiedCoords;
 
         public int Width { get; }
         public int Height { get; }
         public IEnumerable<FabricClaim> FabricClaims { get; }
-        public int OverlappingCoordinates => occupiedCoords.Count(x => x.Value > 1);
+        public int OverlappingCoordinates => occupiedCoords.Count(x => x.Value?.Count > 1);
+
+        public IEnumerable<FabricClaim> NoOverlapping()
+        {
+            var overlappingFabricClaims = occupiedCoords.Where(x => x.Value.Count > 1).SelectMany(x => x.Value);
+            return FabricClaims.Except(overlappingFabricClaims);
+        }
     }
 
     internal struct FabricClaim
@@ -72,23 +85,17 @@ namespace AdventOfCode2018.Core
             Id = id;
             Width = width;
             Height = height;
-            startingCoordinates = new Coordinate(x, y);
+            Coordinates = new Coordinate(x, y);
 
-            occupiedCoordinates = startingCoordinates.GetOccupiedCoordinates(width, height);
+            Occupied = Coordinates.GetOccupiedCoordinates(width, height);
         }
-
-        private Coordinate startingCoordinates;
-        private readonly IEnumerable<Coordinate> occupiedCoordinates;
 
         public int Id { get; }
         public int Width { get; }
         public int Height { get; }
-        public int X => startingCoordinates.X;
-        public int Y => startingCoordinates.Y;
-        public Coordinate Coordinates => startingCoordinates;
+        public Coordinate Coordinates { get; }
 
-        public IEnumerable<Coordinate> Occupied => occupiedCoordinates;
-
+        public IEnumerable<Coordinate> Occupied { get; }
 
 
         public override bool Equals(object obj)
