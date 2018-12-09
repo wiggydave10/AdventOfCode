@@ -18,6 +18,17 @@ namespace AdventOfCode2018.Core
             return sleepingPattern.GuardId * sleepingPattern.MostOftenMinuteAsleep;
         }
 
+        public static int Process_Part2(string[] entries)
+        {
+            var security = GetGuardLogs(entries);
+
+            var sleepingPatterns = security.Guards.Select(x => x.Value.SleepingPattern());
+            var mostSleepyGuardMinutesCount = sleepingPatterns.Max(x => x.MostOftenMinuteAsleepCount);
+
+            var sleepingPattern = sleepingPatterns.First(x => x.MostOftenMinuteAsleepCount == mostSleepyGuardMinutesCount);
+            return sleepingPattern.GuardId * sleepingPattern.MostOftenMinuteAsleep;
+        }
+
 
         private static Security GetGuardLogs(IEnumerable<string> entries)
         {
@@ -92,16 +103,18 @@ namespace AdventOfCode2018.Core
 
     internal class GuardSleepingPattern
     {
-        public GuardSleepingPattern(int guardId, int totalMinutesAsleep, int mostOftenMinuteAsleep)
+        public GuardSleepingPattern(int guardId, int totalMinutesAsleep, int mostOftenMinuteAsleep, int mostOftenMinuteAsleepCount)
         {
             GuardId = guardId;
             TotalMinutesAsleep = totalMinutesAsleep;
             MostOftenMinuteAsleep = mostOftenMinuteAsleep;
+            MostOftenMinuteAsleepCount = mostOftenMinuteAsleepCount;
         }
 
         public int GuardId { get; }
         public int TotalMinutesAsleep { get; }
         public int MostOftenMinuteAsleep { get; }
+        public int MostOftenMinuteAsleepCount { get; }
     }
 
     internal class Guard
@@ -160,10 +173,11 @@ namespace AdventOfCode2018.Core
             }
 
             if (!sleepingMinutes.Any())
-                return new GuardSleepingPattern(GuardId, 0, 0);
+                return new GuardSleepingPattern(GuardId, 0, 0, 0);
 
             var maxCount = sleepingMinutes.Max(x => x.Value);
-            return new GuardSleepingPattern(GuardId, totalTimeAsleep, sleepingMinutes.First(x => x.Value == maxCount).Key);
+            var maxSleepMinute = sleepingMinutes.First(x => x.Value == maxCount);
+            return new GuardSleepingPattern(GuardId, totalTimeAsleep, maxSleepMinute.Key, maxSleepMinute.Value);
         }
     }
 
