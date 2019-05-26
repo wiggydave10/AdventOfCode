@@ -7,7 +7,7 @@ My solutions for the [Advent of Code 2018](https://adventofcode.com/2018).
 - [x] Day 3 (Completed 09/12/2018)
 - [x] Day 4 (Completed 09/12/2018)
 - [x] Day 5 (Completed 26/05/2019)
-- [ ] Day 6
+- [x] Day 6 (Completed 26/05/2019)
 - [ ] Day 7
 - [ ] Day 8
 - [ ] Day 9
