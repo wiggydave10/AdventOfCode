@@ -25,6 +25,23 @@ namespace AdventOfCode2018.Tests
         }
 
 
+        [TestMethod]
+        [DynamicData(nameof(Part2_TestData))]
+        public void Day05_AlchemicalReductionTests_Part2_Test(string polymer, int expectedChainLength)
+        {
+            var chainResult = Day05_AlchemicalReduction.Process_Part2(polymer);
+            chainResult.ShouldBe(expectedChainLength);
+        }
+        [TestMethod]
+        public void Day05_AlchemicalReductionTests_Part2_Answer()
+        {
+            var testData = TestResourceService.GetFileContentsByFile("Day05.txt");
+
+            var result = Day05_AlchemicalReduction.Process_Part2(testData[0]);
+            result.ShouldBe(0);
+        }
+
+
 
         public static IEnumerable<object[]> Part1_TestData => new List<object[]>
         {
@@ -33,6 +50,11 @@ namespace AdventOfCode2018.Tests
             new object[] { "abAB", 4 },
             new object[] { "aabAAB", 6 },
             new object[] { "dabAcCaCBAcCcaDA", 10 },
+        };
+
+        public static IEnumerable<object[]> Part2_TestData => new List<object[]>
+        {
+            new object[] { "dabAcCaCBAcCcaDA", 4 },
         };
     }
 }

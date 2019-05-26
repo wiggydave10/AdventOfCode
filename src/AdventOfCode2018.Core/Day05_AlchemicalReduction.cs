@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode2018.Core
 {
@@ -10,10 +10,35 @@ namespace AdventOfCode2018.Core
             var characters = new List<char>();
             characters.AddRange(entry);
 
-            var index = 0;
-            while(index < characters.Count - 1)
+            return ReactPolymer(characters).Count();
+        }
+
+        public static int Process_Part2(string entry)
+        {
+            var characters = new List<char>();
+            characters.AddRange(entry);
+
+            var minLength = int.MaxValue;
+            var polymerTypes = Enumerable.Range(65, 26).Select(x => (char)x);
+
+            foreach (var polymerType in polymerTypes)
             {
-                var chars = characters.GetRange(index, 2);
+                var reducedPolymerParts = new List<char>(characters);
+                var lowerPolymerType = char.ToLower(polymerType);
+                reducedPolymerParts.RemoveAll(x => x == polymerType || x == lowerPolymerType);
+                var reactedPolymerLength = ReactPolymer(reducedPolymerParts).Count();
+                if (reactedPolymerLength < minLength)
+                    minLength = reactedPolymerLength;
+            }
+            return minLength;
+        }
+
+        private static IEnumerable<char> ReactPolymer(List<char> polymerParts)
+        {
+            var index = 0;
+            while (index < polymerParts.Count - 1)
+            {
+                var chars = polymerParts.GetRange(index, 2);
                 var char1 = chars[0];
                 var char2 = chars[1];
 
@@ -29,7 +54,7 @@ namespace AdventOfCode2018.Core
 
                 if (reactive)
                 {
-                    characters.RemoveRange(index, 2);
+                    polymerParts.RemoveRange(index, 2);
                     index = index == 0 ? 0 : index - 1;
                 }
                 else
@@ -37,7 +62,7 @@ namespace AdventOfCode2018.Core
                     index++;
                 }
             }
-            return characters.Count;
+            return polymerParts;
         }
     }
 }
