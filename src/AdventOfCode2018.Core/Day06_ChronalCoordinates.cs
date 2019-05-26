@@ -25,6 +25,17 @@ namespace AdventOfCode2018.Core
             return dict.Where(x => !grid.EdgeCoordinates().Contains(x.Key.Coordinate)).Select(x => x.Value).Max();
         }
 
+        public static int Process_Part2(string[] coordinateList, int maxDistance)
+        {
+            var claims = GetClaims(coordinateList);
+            var grid = GetPopulatedGridPoints(claims, true);
+
+            var points = grid.Occupied.Where(x => x.Value.Last().Distance < maxDistance);
+
+            return points.Where(x => !grid.EdgeCoordinates().Contains(x.Key)).Count();
+        }
+
+
         private static IEnumerable<ChronalClaim> GetClaims(string[] coordinateList)
         {
             return coordinateList.Select((x, index) =>
@@ -36,7 +47,7 @@ namespace AdventOfCode2018.Core
             }).ToList();
         }
 
-        private static ChronalGrid GetPopulatedGridPoints(IEnumerable<ChronalClaim> mainChronalClaims)
+        private static ChronalGrid GetPopulatedGridPoints(IEnumerable<ChronalClaim> mainChronalClaims, bool sumDistances = false)
         {
             var grid = new ChronalGrid(mainChronalClaims);
 
@@ -47,16 +58,24 @@ namespace AdventOfCode2018.Core
                     var checkingPoint = new Point(x, y);
                     var distances = mainChronalClaims.Select(c => new KeyValuePair<Point, int>(c.Point, checkingPoint.GetManhattanDistance(c.Point))).ToArray();
 
-                    var minDistance = distances.Min(d => d.Value);
-                    if (minDistance == 0)
-                        continue;
-
-                    var points = distances.Where(d => d.Value == minDistance).ToArray();
-
-                    var totalPoints = points.Count();
-                    foreach (var point in points)
+                    if (sumDistances)
                     {
-                        grid.AddOccupiedCoordinate(new ChronalClaim(checkingPoint, minDistance, totalPoints == 1 ? point.Key : (Point?)null));
+                        var totalDistance = distances.Sum(d => d.Value);
+                        grid.AddOccupiedCoordinate(new ChronalClaim(checkingPoint, totalDistance, null));
+                    }
+                    else
+                    {
+                        var minDistance = distances.Min(d => d.Value);
+                        if (minDistance == 0)
+                            continue;
+
+                        var points = distances.Where(d => d.Value == minDistance).ToArray();
+
+                        var totalPoints = points.Count();
+                        foreach (var point in points)
+                        {
+                            grid.AddOccupiedCoordinate(new ChronalClaim(checkingPoint, point.Value, totalPoints == 1 ? point.Key : (Point?)null));
+                        }
                     }
                 }
             }
