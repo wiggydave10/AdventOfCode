@@ -2,9 +2,13 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/src/.vs
-/src/AdventOfCode2018.Core/bin
-/src/AdventOfCode2018.Core/obj
-/src/AdventOfCode2018.Tests/bin
-/src/AdventOfCode2018.Tests/obj
+.vs/
+
+### DotnetCore ###
+# .NET Core build folders
+bin/
+obj/
+
+# Common node modules locations
+/node_modules
+/wwwroot/node_modules
