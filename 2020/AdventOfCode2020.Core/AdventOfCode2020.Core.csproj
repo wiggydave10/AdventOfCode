@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Day 02\" />
     <Folder Include="Day 03\" />
   </ItemGroup>
 
