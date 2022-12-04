@@ -18,4 +18,21 @@ public class AdventOfCodeTests
 		var result = day01.RunEvening();
 		Assert.Equal(0, result);
 	}
+
+	[Fact]
+	public async Task Day02_Morning()
+	{
+		var day02 = new Day02();
+		await day02.PrepData();
+		var result = day02.RunMorning();
+		Assert.Equal(0, result);
+	}
+	[Fact]
+	public async Task Day02_Evening()
+	{
+		var day02 = new Day02();
+		await day02.PrepData();
+		var result = day02.RunEvening();
+		Assert.Equal(0, result);
+	}
 }
