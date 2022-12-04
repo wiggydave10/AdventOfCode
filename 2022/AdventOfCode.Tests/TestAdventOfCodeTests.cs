@@ -30,9 +30,9 @@ public class TestAdventOfCodeTests
 	[Fact]
 	public async Task Day02_Evening()
 	{
-		var day02 = new Day01();
+		var day02 = new Day02();
 		await day02.PrepTestData();
 		var result = day02.RunEvening();
-		Assert.Equal(0, result);
+		Assert.Equal(12, result);
 	}
 }

@@ -4,6 +4,13 @@ public class Day02 : IAdventOfCodeDay<int, int>
 {
 	private const string dataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\02.txt";
 	private const string testDataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\t02.txt";
+	private static readonly RockPaperScissorType[] playTypes = Enum.GetValues<RockPaperScissorType>();
+	private static readonly IDictionary<RockPaperScissorType, RockPaperScissorType> winning
+		= new Dictionary<RockPaperScissorType, RockPaperScissorType>() {
+			{ RockPaperScissorType.Rock, RockPaperScissorType.Paper },
+			{ RockPaperScissorType.Paper, RockPaperScissorType.Scissors },
+			{ RockPaperScissorType.Scissors, RockPaperScissorType.Rock },
+		};
 
 	private string[] data;
 
@@ -21,53 +28,81 @@ public class Day02 : IAdventOfCodeDay<int, int>
 
 	public int RunMorning()
 	{
-		var games = GetGames();
+		var games = GetGames(false);
 		return games.Sum(x => (int)x.self + (int)x.result);
 	}
 
 	public int RunEvening()
 	{
-		throw new NotImplementedException();
+		var games = GetGames(true);
+		return games.Sum(x => (int)x.self + (int)x.result);
 	}
 
-	private List<(RockPaperScissorType opponent, RockPaperScissorType self, RoundResultType result)> GetGames()
+	private List<(RockPaperScissorType opponent, RockPaperScissorType self, RoundResultType result)> GetGames(bool isGameResult)
 	{
 		var result = new List<(RockPaperScissorType opponent, RockPaperScissorType self, RoundResultType result)>();
 		foreach (var line in data)
 		{
 			var round = line.Split(' ');
-			var opponent = GetPlayType(round[0].Trim()); 
-			var self = GetPlayType(round[1].Trim());
-			var roundResult = GetRoundResult(opponent, self);
+			var opponent = GetPlayType(round[0].Trim());
+			RockPaperScissorType self;
+			RoundResultType roundResult;
+			if (isGameResult)
+			{
+				roundResult = GetRoundResult(round[1].Trim());
+				self = GetPlayType(opponent, roundResult);
+			}
+			else
+			{
+				self = GetPlayType(round[1].Trim());
+				roundResult = GetRoundResult(opponent, self);
+			}
 			result.Add((opponent, self, roundResult));
 		}
-
 		return result;
+	}
 
-		RoundResultType GetRoundResult(RockPaperScissorType opponent, RockPaperScissorType self)
+	private static RoundResultType GetRoundResult(RockPaperScissorType opponent, RockPaperScissorType self)
+	{
+		if (opponent == self)
+			return RoundResultType.Draw;
+
+		if (winning[opponent] == self)
+			return RoundResultType.Win;
+		return RoundResultType.Loss;
+	}
+
+	private static RoundResultType GetRoundResult(string result)
+	{
+		return result switch
 		{
-			if (opponent == self)
-				return RoundResultType.Draw;
+			"X" => RoundResultType.Loss,
+			"Y" => RoundResultType.Draw,
+			"Z" => RoundResultType.Win,
+			_ => throw new ArgumentOutOfRangeException(nameof(result), "Incorrect value"),
+		};
+	}
 
-			return opponent switch
-			{
-				RockPaperScissorType.Rock when self == RockPaperScissorType.Paper => RoundResultType.Win,
-				RockPaperScissorType.Paper when self == RockPaperScissorType.Scissors => RoundResultType.Win,
-				RockPaperScissorType.Scissors when self == RockPaperScissorType.Rock => RoundResultType.Win,
-				_ => RoundResultType.Loss
-			};
-		}
-		RockPaperScissorType GetPlayType(string play)
+	private static RockPaperScissorType GetPlayType(string play)
+	{
+		return play switch
 		{
-			return play switch
-			{
-				"A" or "X" => RockPaperScissorType.Rock,
-				"B" or "Y" => RockPaperScissorType.Paper,
-				"C" or "Z" => RockPaperScissorType.Scissors,
-				_ => throw new ArgumentOutOfRangeException(nameof(play), "Incorrect value"),
-			};
-		}
+			"A" or "X" => RockPaperScissorType.Rock,
+			"B" or "Y" => RockPaperScissorType.Paper,
+			"C" or "Z" => RockPaperScissorType.Scissors,
+			_ => throw new ArgumentOutOfRangeException(nameof(play), "Incorrect value"),
+		};
+	}
 
+	private static RockPaperScissorType GetPlayType(RockPaperScissorType opponent, RoundResultType result)
+	{
+		if (result == RoundResultType.Draw)
+			return opponent;
+
+		var winnerPlay = winning[opponent];
+		if (result == RoundResultType.Win)
+			return winnerPlay;
+		return playTypes.Where(x => x != opponent && x != winnerPlay).First();
 	}
 }
 
