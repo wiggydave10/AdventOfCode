@@ -1,8 +1,9 @@
 ﻿namespace AdventOfCode.Core;
 
-public interface IAdventOfCodeDay<T>
+public interface IAdventOfCodeDay<TMorning, TEvening>
 {
     Task PrepData();
     Task PrepTestData();
-    T RunDay();
+    TMorning RunMorning();
+    TEvening RunEvening();
 }
