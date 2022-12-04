@@ -3,36 +3,50 @@ namespace AdventOfCode.Tests;
 public class TestAdventOfCodeTests
 {
     [Fact]
-    public async Task Day01_Morning()
-    {
-        var day01 = new Day01();
-        await day01.PrepTestData();
-        var result = day01.RunMorning();
-        Assert.Equal(24000, result);
+    public Task Day01_Morning()
+	{
+		return RunMorning(new Day01(), 24000);
     }
 	[Fact]
-	public async Task Day01_Evening()
+	public Task Day01_Evening()
 	{
-		var day01 = new Day01();
-		await day01.PrepTestData();
-		var result = day01.RunEvening();
-		Assert.Equal(45000, result);
+		return RunEvening(new Day01(), 45000);
 	}
 
 	[Fact]
-	public async Task Day02_Morning()
+	public Task Day02_Morning()
 	{
-		var day02 = new Day02();
-		await day02.PrepTestData();
-		var result = day02.RunMorning();
-		Assert.Equal(15, result);
+		return RunMorning(new Day02(), 15);
 	}
 	[Fact]
-	public async Task Day02_Evening()
+	public Task Day02_Evening()
 	{
-		var day02 = new Day02();
-		await day02.PrepTestData();
-		var result = day02.RunEvening();
-		Assert.Equal(12, result);
+		return RunEvening(new Day02(), 12);
+	}
+
+	[Fact]
+	public Task Day03_Morning()
+	{
+		return RunMorning(new Day03(), 157);
+	}
+	[Fact]
+	public Task Day03_Evening()
+	{
+		return RunEvening(new Day03(), 0);
+	}
+
+	private async Task RunMorning<TMorning, TEvening>(IAdventOfCodeDay<TMorning, TEvening> day,
+		TMorning expectedResult)
+	{
+		await day.PrepTestData();
+		var result = day.RunMorning();
+		Assert.Equal(expectedResult, result);
+	}
+	private async Task RunEvening<TMorning, TEvening>(IAdventOfCodeDay<TMorning, TEvening> day,
+		TEvening expectedResult)
+	{
+		await day.PrepTestData();
+		var result = day.RunEvening();
+		Assert.Equal(expectedResult, result);
 	}
 }

@@ -1,5 +1,4 @@
 ﻿namespace AdventOfCode.Core;
-
 public class Day02 : IAdventOfCodeDay<int, int>
 {
 	private const string dataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\02.txt";
