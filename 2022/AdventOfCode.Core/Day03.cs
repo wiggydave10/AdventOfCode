@@ -28,10 +28,26 @@ public class Day03 : IAdventOfCodeDay<int, int>
 
 	public int RunEvening()
 	{
-		throw new NotImplementedException();
+		var rucksacks = GetRucksacks().ToList();
+		var elfBadges = GetElfBadges(rucksacks).ToList();
+		var sum = elfBadges.Sum(x => char.IsUpper(x) ? (int)x - 38 : (int)x - 96);
+		return sum;
 	}
 
-	public IEnumerable<char> GetCommonItems(IEnumerable<(string frontCompartment, string backCompartment)> rucksacks)
+	private static IEnumerable<char> GetElfBadges(List<(string frontCompartment, string backCompartment)> rucksacks)
+	{
+		var badges = new List<char>();
+		for (int i = 0; i < rucksacks.Count - 2; i += 3)
+		{
+			var group = rucksacks.Skip(i).Take(3);
+			var bags = group.Select(x => x.frontCompartment + x.backCompartment).ToArray();
+			var badge = bags[0].Where(x => bags[1].Contains(x) && bags[2].Contains(x)).First();
+			badges.Add(badge);
+		}
+		return badges;
+	}
+
+	public static IEnumerable<char> GetCommonItems(IEnumerable<(string frontCompartment, string backCompartment)> rucksacks)
 	{
 		var items = new List<char>();
 		foreach (var rucksack in rucksacks)
