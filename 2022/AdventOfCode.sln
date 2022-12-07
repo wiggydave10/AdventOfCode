@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B7FDE3BD-93FA-4C14-886F-3EC8A4CD4F49}"
 	ProjectSection(SolutionItems) = preProject
 		docs\Day01.md = docs\Day01.md
+		docs\Day02.md = docs\Day02.md
+		docs\Day03.md = docs\Day03.md
+		docs\Day04.md = docs\Day04.md
 	EndProjectSection
 EndProject
 Global
