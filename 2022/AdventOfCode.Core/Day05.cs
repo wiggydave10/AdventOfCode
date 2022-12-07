@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Core;
 
-public class Day05 : IAdventOfCodeDay<string, int>
+public class Day05 : IAdventOfCodeDay<string, string>
 {
 	private const string dataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\05.txt";
 	private const string testDataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\t05.txt";
@@ -23,16 +23,18 @@ public class Day05 : IAdventOfCodeDay<string, int>
 	public string RunMorning()
 	{
 		var stacks = GetStacks();
-		stacks = RunCommands(stacks);
+		stacks = RunCommands9000(stacks);
 		return string.Join("", stacks.Select(x => x.Peek()));
 	}
 
-	public int RunEvening()
+	public string RunEvening()
 	{
-		throw new NotImplementedException();
+		var stacks = GetStacks();
+		stacks = RunCommands9001(stacks);
+		return string.Join("", stacks.Select(x => x.Peek()));
 	}
 
-	private IEnumerable<Stack<char>> RunCommands(IEnumerable<Stack<char>> stacks)
+	private IEnumerable<Stack<char>> RunCommands9000(IEnumerable<Stack<char>> stacks)
 	{
 		foreach (var command in commandData)
 		{
@@ -48,6 +50,28 @@ public class Day05 : IAdventOfCodeDay<string, int>
 			{
 				var container = fromStack.Pop();
 				toStack.Push(container);
+			}
+		}
+		return stacks;
+	}
+
+	private IEnumerable<Stack<char>> RunCommands9001(IEnumerable<Stack<char>> stacks)
+	{
+		foreach (var command in commandData)
+		{
+			//move 1 from 2 to 1
+			var data = command.Split(' ');
+			var amount = int.Parse(data[1]);
+			var from = int.Parse(data[3]) - 1;
+			var to = int.Parse(data[5]) - 1;
+
+			var fromStack = stacks.ElementAt(from);
+			var toStack = stacks.ElementAt(to);
+			var moving = fromStack.Take(amount).ToArray();
+			for (int i = amount - 1; i >= 0; i--)
+			{
+				fromStack.Pop();
+				toStack.Push(moving[i]);
 			}
 		}
 		return stacks;
