@@ -34,6 +34,17 @@ public class TestAdventOfCodeTests
 	{
 		return RunEvening(new Day03(), 70);
 	}
+  
+  [Fact]
+  public Task Day04_Morning()
+	{
+		return RunMorning(new Day04(), 2);
+	}
+	[Fact]
+	public Task Day04_Evening()
+	{
+		return RunEvening(new Day04(), 4);
+	}
 
 	[Fact]
 	public Task Day05_Morning()
@@ -44,7 +55,7 @@ public class TestAdventOfCodeTests
 	public Task Day05_Evening()
 	{
 		return RunEvening(new Day05(), "MCD");
-	}
+  }
 
 	private async Task RunMorning<TMorning, TEvening>(IAdventOfCodeDay<TMorning, TEvening> day,
 		TMorning expectedResult)
