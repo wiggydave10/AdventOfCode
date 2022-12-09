@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode.Core;
 
-public class Day06 : IAdventOfCodeDay<int[], int>
+public class Day06 : IAdventOfCodeDay<int[], int[]>
 {
 	private const string dataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\06.txt";
 	private const string testDataFile = "C:\\Dev\\AdventOfCode\\2022\\AdventOfCode.Core\\data\\t06.txt";
@@ -20,6 +20,16 @@ public class Day06 : IAdventOfCodeDay<int[], int>
 
 	public int[] RunMorning()
 	{
+		return GetMarkers(4);
+	}
+
+	public int[] RunEvening()
+	{
+		return GetMarkers(14);
+	}
+
+	private int[] GetMarkers(int markerLength)
+	{
 		var results = new List<int>();
 		foreach (var line in data)
 		{
@@ -28,18 +38,13 @@ public class Day06 : IAdventOfCodeDay<int[], int>
 			var i = 0;
 			do
 			{
-				if (queue.Count >= 4)
+				if (queue.Count >= markerLength)
 					queue.Dequeue();
 				queue.Enqueue(line[i]);
 				i++;
-			} while (queue.Distinct().Count() != 4 && i < totalChars);
+			} while (queue.Distinct().Count() != markerLength && i < totalChars);
 			results.Add(i);
 		}
 		return results.ToArray();
-	}
-
-	public int RunEvening()
-	{
-		throw new NotImplementedException();
 	}
 }

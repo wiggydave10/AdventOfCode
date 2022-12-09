@@ -65,7 +65,7 @@ public class AdventOfCodeTests
 	[Fact]
 	public Task Day06_Evening()
 	{
-		return RunEvening(new Day06(), 0);
+		return RunEvening(new Day06(), new[] { 0 });
 	}
 
 
