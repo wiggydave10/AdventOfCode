@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B7FDE3BD-9
 		docs\Day05.md = docs\Day05.md
 		docs\Day06.md = docs\Day06.md
 		docs\Day07.md = docs\Day07.md
+		docs\Day08.md = docs\Day08.md
 	EndProjectSection
 EndProject
 Global
