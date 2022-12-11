@@ -28,7 +28,77 @@ public class Day08 : IAdventOfCodeDay<int, int>
 
 	public int RunEvening()
 	{
-		throw new NotImplementedException();
+		var forest = GetForest();
+		var highestScenicScore = 0;
+		var maxX = forest[0].Length - 1;
+		var maxY = forest.Length - 1;
+		for (int yI = 1; yI < maxY; yI++)
+		{
+			int[] item = forest[yI];
+			for (int xI = 1; xI < maxX; xI++)
+			{
+				var tree = item[xI];
+				var (left, right) = GetXScores(forest, tree, xI, yI);
+				var (top, bottom) = GetYScores(forest, tree, xI, yI);
+				var score = left * right * top * bottom;
+				if (score > highestScenicScore)
+					highestScenicScore = score;
+			}
+		}
+		return highestScenicScore;
+	}
+
+	private static (int left, int right) GetXScores(int[][] forest, int tree, int x, int y)
+	{
+		var rowTotal = forest[0].Length;
+		var left = 0;
+		var hitTallest = false;
+		var xI = x - 1;
+		while (!hitTallest && xI >= 0)
+		{
+			left++;
+			if (forest[y][xI] >= tree)
+				hitTallest = true;
+			xI--;
+		}
+
+		var right = 0;
+		hitTallest = false;
+		xI = x + 1;
+		while (!hitTallest && xI < rowTotal)
+		{
+			right++;
+			if (forest[y][xI] >= tree)
+				hitTallest = true;
+			xI++;
+		}
+		return (left, right);
+	}
+	private static (int top, int bottom) GetYScores(int[][] forest, int tree, int x, int y)
+	{
+		var columnTotal = forest.Length;
+		var top = 0;
+		var hitTallest = false;
+		var yI = y - 1;
+		while (!hitTallest && yI >= 0)
+		{
+			top++;
+			if (forest[yI][x] >= tree)
+				hitTallest = true;
+			yI--;
+		}
+
+		var bottom = 0;
+		hitTallest = false;
+		yI = y + 1;
+		while (!hitTallest && yI < columnTotal)
+		{
+			bottom++;
+			if (forest[yI][x] >= tree)
+				hitTallest = true;
+			yI++;
+		}
+		return (top, bottom);
 	}
 
 	private int CalculateVisibleInnerTrees(int[][] forest)
